@@ -1,0 +1,11 @@
+# Elixir language server logs (megabytes, regenerated on every run)
+.expert/
+
+# macOS Finder metadata
+.DS_Store
+
+# Netrw history: oil replaces netrw, but the file still appears
+.netrwhist
+
+# ctags output
+tags
