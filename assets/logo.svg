@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 260" width="880" height="260" role="img" aria-label="lain-nvim: a Neovim config">
+  <style>
+    .mono { font-family: "Iosevka", "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace; }
+    .cursor { animation: blink 1.1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0 } }
+  </style>
+
+  <rect width="880" height="260" rx="14" fill="#2e3440"/>
+  <rect x="1" y="1" width="878" height="258" rx="13" fill="none" stroke="#434c5e" stroke-width="2"/>
+
+  <!-- title bar -->
+  <path d="M1 15 a14 14 0 0 1 14-14 h850 a14 14 0 0 1 14 14 v33 h-878 z" fill="#3b4252"/>
+  <circle cx="30" cy="31" r="6" fill="#bf616a"/>
+  <circle cx="52" cy="31" r="6" fill="#ebcb8b"/>
+  <circle cx="74" cy="31" r="6" fill="#a3be8c"/>
+  <text class="mono" x="440" y="36" fill="#7b88a1" font-size="14" text-anchor="middle">~/.config/nvim</text>
+
+  <!-- prompt -->
+  <text class="mono" x="42" y="118" font-size="46" font-weight="700">
+    <tspan fill="#a3be8c">❯</tspan><tspan fill="#88c0d0" dx="18">lain</tspan><tspan fill="#5e81ac">-</tspan><tspan fill="#eceff4">nvim</tspan>
+  </text>
+  <rect class="cursor" x="358" y="86" width="22" height="42" fill="#88c0d0" opacity="0.85"/>
+
+  <text class="mono" x="44" y="158" fill="#d8dee9" font-size="17">48 plugins · 7 languages · 197 checks · zero warnings</text>
+
+  <!-- language chips -->
+  <g class="mono" font-size="14">
+    <g fill="#434c5e">
+      <rect x="44"  y="182" width="78"  height="30" rx="8"/>
+      <rect x="130" y="182" width="62"  height="30" rx="8"/>
+      <rect x="200" y="182" width="48"  height="30" rx="8"/>
+      <rect x="256" y="182" width="112" height="30" rx="8"/>
+      <rect x="376" y="182" width="56"  height="30" rx="8"/>
+      <rect x="440" y="182" width="52"  height="30" rx="8"/>
+      <rect x="500" y="182" width="60"  height="30" rx="8"/>
+      <rect x="568" y="182" width="52"  height="30" rx="8"/>
+    </g>
+    <g fill="#8fbcbb" text-anchor="middle">
+      <text x="83"  y="202">Elixir</text>
+      <text x="161" y="202">Rust</text>
+      <text x="224" y="202">Go</text>
+      <text x="312" y="202">TypeScript</text>
+      <text x="404" y="202">SQL</text>
+      <text x="466" y="202">Lua</text>
+      <text x="530" y="202">Bash</text>
+      <text x="594" y="202">Fish</text>
+    </g>
+  </g>
+
+  <text class="mono" x="836" y="202" fill="#4c566a" font-size="13" text-anchor="end">ah shit, here we go again</text>
+</svg>
