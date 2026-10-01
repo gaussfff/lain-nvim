@@ -513,6 +513,66 @@ local function check_yank()
     report("p goes through yanky", put, put and "put records history" or "plain put")
 end
 
+--- Linters must attach where the project asks for them and nowhere else.
+---@param fixtures Fixture[]
+local function check_linters(fixtures)
+    header("Linters")
+
+    local root = vim.fn.fnamemodify(fixtures[1].file, ":h:h:h")
+    vim.cmd.edit(vim.fn.fnameescape(root .. "/lint/a.ts"))
+    local buf = vim.api.nvim_get_current_buf()
+
+    wait_for(function()
+        return #vim.lsp.get_clients({ bufnr = buf, name = "oxlint" }) > 0
+    end)
+    local attached = #vim.lsp.get_clients({ bufnr = buf, name = "oxlint" }) > 0
+    report("oxlint attaches", attached, attached and "project declares it" or "NOT ATTACHED")
+
+    if attached then
+        wait_for(function()
+            for _, d in ipairs(vim.diagnostic.get(buf)) do
+                if d.source == "oxc" then
+                    return true
+                end
+            end
+            return false
+        end)
+        local found
+        for _, d in ipairs(vim.diagnostic.get(buf)) do
+            found = found or (d.source == "oxc" and d.message:gsub("\n.*", ""))
+        end
+        report("oxlint reports", found ~= nil, found and found:sub(1, 46) or "silent")
+    end
+
+    -- No ESLint config here, so that server must stay out of the way.
+    local eslint_here = #vim.lsp.get_clients({ bufnr = buf, name = "eslint" }) > 0
+    report(
+        "eslint stays away",
+        not eslint_here,
+        eslint_here and "ATTACHED ANYWAY" or "no ESLint config"
+    )
+
+    -- The plain TypeScript fixture configures neither linter.
+    for _, fx in ipairs(fixtures) do
+        if fx.name == "typescript" then
+            vim.cmd.edit(vim.fn.fnameescape(fx.file))
+            local tbuf = vim.api.nvim_get_current_buf()
+            vim.wait(2000)
+            local noise = {}
+            for _, name in ipairs({ "eslint", "oxlint" }) do
+                if #vim.lsp.get_clients({ bufnr = tbuf, name = name }) > 0 then
+                    noise[#noise + 1] = name
+                end
+            end
+            report(
+                "quiet without config",
+                #noise == 0,
+                #noise == 0 and "neither attaches" or table.concat(noise, ", ")
+            )
+        end
+    end
+end
+
 --- PostgreSQL: the parts the shared fixture loop does not cover.
 ---@param fixtures Fixture[]
 local function check_sql(fixtures)
@@ -842,6 +902,7 @@ function M.run(fixtures)
     check_motions()
     check_go(fixtures)
     check_sql(fixtures)
+    check_linters(fixtures)
     check_elixir_source()
     check_cyrillic()
     check_whichkey()

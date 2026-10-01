@@ -8,6 +8,8 @@ local ensure_installed = {
     "ts_ls", -- TypeScript / JavaScript
     "vue_ls", -- Vue single-file components
     "svelte", -- Svelte and SvelteKit
+    "eslint", -- linter for projects with an ESLint config
+    "oxlint", -- linter used by current NestJS and Vite templates
     "gopls", -- Go
     "postgres_lsp", -- PostgreSQL
     "lua_ls", -- Lua
@@ -111,6 +113,18 @@ return {
                 postgres_lsp = {
                     root_markers = { "postgres-language-server.jsonc", ".git" },
                 },
+
+                -- Both linters attach only where the project asks for them:
+                -- eslint needs an ESLint config, oxlint a config file or a
+                -- package.json that mentions it. Each prefers the project's own
+                -- binary from node_modules/.bin over the Mason one.
+                eslint = {},
+
+                -- Upstream leaves workspace_required unset, so with no config
+                -- found oxlint still starts with root_dir = nil and lints every
+                -- JS/TS buffer by its own defaults. eslint guards this the same
+                -- way; this makes oxlint behave consistently.
+                oxlint = { workspace_required = true },
 
                 bashls = {},
 

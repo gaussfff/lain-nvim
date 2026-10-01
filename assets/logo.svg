@@ -21,7 +21,7 @@
   </text>
   <rect class="cursor" x="358" y="86" width="22" height="42" fill="#88c0d0" opacity="0.85"/>
 
-  <text class="mono" x="44" y="158" fill="#d8dee9" font-size="17">48 plugins · 7 languages · 197 checks · zero warnings</text>
+  <text class="mono" x="44" y="158" fill="#d8dee9" font-size="17">48 plugins · 7 languages · 201 checks · zero warnings</text>
 
   <!-- language chips -->
   <g class="mono" font-size="14">

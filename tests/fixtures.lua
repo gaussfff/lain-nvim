@@ -57,6 +57,16 @@ function M.create()
         'package main\n\nimport "testing"\n\nfunc TestAdd(t *testing.T) {\n\tif Add(1, 2) != 3 {\n\t\tt.Fatal("bad")\n\t}\n}\n'
     )
 
+    -- Linters: oxlint attaches on its own config, eslint must stay away
+    -- because this project configures no ESLint. The Mason oxlint needs no
+    -- node_modules, so the check does not depend on an npm install.
+    write(
+        at("lint/package.json"),
+        '{ "name": "fixture", "devDependencies": { "oxlint": "^1.0.0" } }\n'
+    )
+    write(at("lint/.oxlintrc.json"), "{}\n")
+    write(at("lint/a.ts"), "const unused = 42;\nexport const used = 1;\n")
+
     -- PostgreSQL: postgres_lsp needs a root, .git is enough. The "::" cast
     -- proves the dialect: sql-formatter's default one rejects it outright.
     vim.fn.mkdir(at("sql/.git"), "p")

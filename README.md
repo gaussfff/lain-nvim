@@ -39,7 +39,7 @@ Everything else happens on its own: plugins, grammars, Mason packages.
 | Elixir / HEEx | expert | `mix format` | neotest-elixir |
 | Rust | rust_analyzer (via rustaceanvim) | rustfmt | rustaceanvim |
 | Go | gopls | goimports + gofumpt | neotest-golang |
-| TypeScript / JavaScript | ts_ls | prettierd | jest, vitest |
+| TypeScript / JavaScript | ts_ls, eslint, oxlint | prettierd | jest, vitest |
 | Vue / Svelte | vue_ls, svelte | prettierd, LSP | — |
 | SQL (PostgreSQL) | postgres_lsp | sql-formatter | — |
 | Lua | lua_ls | stylua | — |
@@ -85,6 +85,7 @@ Everything else happens on its own: plugins, grammars, Mason packages.
 | `lsp.lua` | [WhoIsSethDaniel/mason-tool-installer.nvim](https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim) | keeps the declared package list installed |
 | `lsp.lua` | [folke/lazydev.nvim](https://github.com/folke/lazydev.nvim) | teaches lua_ls the Neovim API and plugin modules |
 | `lsp.lua` | [b0o/schemastore.nvim](https://github.com/b0o/schemastore.nvim) | JSON and YAML schema catalogue |
+| `lsp.lua` | — | `eslint` and `oxlint` run as language servers; each attaches only where the project declares it, preferring the project's own binary |
 | `treesitter.lua` | [nvim-treesitter/nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | 29 grammars; on the `main` branch highlighting is started per buffer by hand |
 | `format.lua` | [stevearc/conform.nvim](https://github.com/stevearc/conform.nvim) | formatters on save, with `:FormatDisable` to turn it off |
 | `rust.lua` | [mrcjkb/rustaceanvim](https://github.com/mrcjkb/rustaceanvim) | owns rust_analyzer; expands macros, runs tests, explains errors |
@@ -153,7 +154,7 @@ Neovim–zellij boundary without thinking about it.
 ./tests/run.sh
 ```
 
-197 assertions: stylua and lua-language-server first, then a headless Neovim
+201 assertions: stylua and lua-language-server first, then a headless Neovim
 that creates throwaway projects per language and checks that servers attach,
 formatters produce the expected bytes, grammars highlight, and the keymaps that
 matter are still bound. Exit code 0 means the config is intact.
